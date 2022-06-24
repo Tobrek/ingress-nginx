@@ -1,0 +1,58 @@
+controller:
+  image:
+    registry: tobrek
+    image: tobrek-nginx
+    tag: v1.2.1
+    digest: ''
+
+  config:
+    enable-opentelemetry: true
+    # opentelemetry-config: "/conf/otel-nginx.toml"
+
+  extraModules: 
+  - name: opentelemetry
+    image: "tobrek/tobrek-nginx:opentelemetry-sidecar-1.2.1"
+
+  service:
+    type: NodePort
+
+  hostPort:
+    enabled: true
+
+  extraVolumeMounts:
+  - name: otel-nginx
+    readOnly: true
+    mountPath: /conf
+
+  extraVolumes:
+   - name: otel-nginx
+     configMap:
+      name: nginx-otel
+
+opentelemetry:
+  config: 
+    name: otel-nginx.toml
+    path: /conf
+    content: | 
+      exporter: "otlp"
+      processor: "batch"
+
+      exporters:
+        otlp:
+          # Alternatively the OTEL_EXPORTER_OTLP_ENDPOINT environment variable can also be used.
+          host = "http://otel-collector:4317"
+          port = 4317
+
+      processors:
+        batch:
+          max_queue_size: 2048
+          schedule_delay_millis: 5000
+          max_export_batch_size: 512
+
+      service:
+        name: "nginx-proxy" # Opentelemetry resource name
+
+      sampler:
+        name: "AlwaysOn" # Also: AlwaysOff, TraceIdRatioBased
+        ratio: 0.1
+        parent_based: false

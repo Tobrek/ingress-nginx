@@ -71,5 +71,10 @@ func (c opentelemetry) Parse(ing *networking.Ingress) (interface{}, error) {
 		}
 	}
 
+	config.OpenTelemetryConfigData, err = parser.GetBoolAnnotation("opentelemetry-config-data", ing)
+	if err != nil {
+		config.OpenTelemetryConfigData = nil
+	}
+
 	return config, nil
 }

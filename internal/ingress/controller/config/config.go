@@ -565,7 +565,10 @@ type Configuration struct {
 
 	// OpentelemetryConfig sets the opentelemetry config file
 	OpentelemetryConfig string `json:"opentelemetry-config"`
-
+	
+	// OpentelemetryConfig sets the opentelemetry config file content
+	OpentelemetryConfigData string `json:"opentelemetry-config-data"`
+	
 	// ZipkinCollectorHost specifies the host to use when uploading traces
 	ZipkinCollectorHost string `json:"zipkin-collector-host"`
 

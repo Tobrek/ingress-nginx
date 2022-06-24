@@ -132,6 +132,7 @@ The following table shows a configuration option's name, type, and the default v
 |[opentracing-location-operation-name](#opentracing-location-operation-name)|string|""|
 |[enable-opentelemetry](#enable-opentelemetry)|bool|"false"|
 |[opentelemetry-config](#opentelemetry-config)|string|`Mandatory`|
+|[opentelemetry-config-data](#opentelemetry-config-data)|string|"" (Config file is deployed separately)|
 |[zipkin-collector-host](#zipkin-collector-host)|string|""|
 |[zipkin-collector-port](#zipkin-collector-port)|int|9411|
 |[zipkin-service-name](#zipkin-service-name)|string|"nginx"|
@@ -904,8 +905,12 @@ Enables the nginx Opentelemetry extension. _**default:**_ is disabled
 
 ## opentelemetry-config
 
-Opentelemetry exporters, processors, etc config. Mandatory, if enable-opentelemetry is enabled
+Opentelemetry exporters, processors, etc config file. Mandatory, if enable-opentelemetry is enabled.
 For more details see docs/user-guide/third-party-addons/opentelemetry.md 
+
+## opentelemetry-config-data
+
+Opentelemetry exporters, processors, etc config file content. _**default:**_ is empty, which requires that the file was deployed separately.
 
 ## zipkin-collector-host
 

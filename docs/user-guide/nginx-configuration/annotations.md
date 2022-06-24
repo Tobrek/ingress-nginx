@@ -822,6 +822,12 @@ Opentelemetry config
 nginx.ingress.kubernetes.io/opentelemetry-config: "/conf/otel-nginx.toml"
 ```
 
+Opentelemetry config context
+
+```yaml
+nginx.ingress.kubernetes.io/opentelemetry-config-data: "exporter = \"otlp\"\nprocessor = \"batch\"\n\n[exporters.otlp]\n# Alternatively the OTEL_EXPORTER_OTLP_ENDPOINT environment variable can also be used.\nhost = \"localhost\"\nport = 4317\n\n[processors.batch]\nmax_queue_size = 2048\nschedule_delay_millis = 5000\nmax_export_batch_size = 512\n\n[service]\nname = \"nginx-proxy\" # Opentelemetry resource name\n\n[sampler]\nname = \"AlwaysOn\" # Also: AlwaysOff, TraceIdRatioBased\nratio = 0.1\nparent_based = false\n"
+```
+
 ### X-Forwarded-Prefix Header
 To add the non-standard `X-Forwarded-Prefix` header to the upstream request with a string value, the following annotation can be used:
 
